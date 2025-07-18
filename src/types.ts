@@ -1,5 +1,5 @@
 // src/types.ts
-export type BlockType = "text" | "heading1" | "heading2" | "heading3" | "list" | "checkbox";
+export type BlockType = "text" | "heading1" | "heading2" | "list" | "checkbox";
 
 export type Block = {
   id: string;

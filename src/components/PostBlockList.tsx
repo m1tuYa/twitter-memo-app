@@ -62,7 +62,7 @@ type PostBlockListProps = {
   setBlockTypeMenuId?: (id: string | null) => void;
   handleUpdateBlock?: (blockId: string, newContent: string) => void;
   handleDeleteBlock?: (blockId: string) => void;
-  handleChangeBlockType?: (blockId: string, newType: "heading1" | "heading2" | "heading3" | "text" | "list") => void;
+  handleChangeBlockType?: (blockId: string, newType: "heading1" | "heading2" | "text" | "list") => void;
   handleAddBlock?: (postId: string) => void;
   handleAddSubBlock?: (postId: string, parentBlockId: string) => void;
 };
@@ -159,7 +159,6 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                     >
                       <button onClick={() => handleChangeBlockType?.(block.id, "heading1")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>🔠 見出し1</button>
                       <button onClick={() => handleChangeBlockType?.(block.id, "heading2")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>🔠 見出し2</button>
-                      <button onClick={() => handleChangeBlockType?.(block.id, "heading3")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>🔠 見出し3</button>
                       <button onClick={() => handleChangeBlockType?.(block.id, "text")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>✏️ テキスト</button>
                       <button onClick={() => handleChangeBlockType?.(block.id, "list")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center" }}>📋 リスト</button>
                     </div>
@@ -201,13 +200,10 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                           ? "2rem"
                           : block.type === "heading2"
                           ? "1.5rem"
-                          : block.type === "heading3"
-                          ? "1.25rem"
                           : "1rem",
                       fontWeight:
                         block.type === "heading1" ||
-                        block.type === "heading2" ||
-                        block.type === "heading3"
+                        block.type === "heading2"
                           ? "bold"
                           : "normal",
                       lineHeight: "1.5",
@@ -222,14 +218,12 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                   >
                     {block.content}
                   </div>
-                ) : block.type === "heading1" || block.type === "heading2" || block.type === "heading3" ? (
+                ) : block.type === "heading1" || block.type === "heading2" ? (
                   (() => {
                     const HeadingTag =
                       block.type === "heading1"
                         ? "h3"
-                        : block.type === "heading2"
-                        ? "h4"
-                        : "h5";
+                        : "h4";
                     return (
                       <HeadingTag
                         style={{ margin: 0 }}
@@ -251,7 +245,7 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
             </div>
           </DraggableBlock>
           {/* headingの直後にサブブロック（インデント付き） */}
-          {(block.type === "heading1" || block.type === "heading2" || block.type === "heading3") && (
+          {(block.type === "heading1" || block.type === "heading2") && (
             <>
               {getSubBlocks(block.id).map((subBlock) => (
                 <DraggableBlock
@@ -321,7 +315,6 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                           >
                             <button onClick={() => handleChangeBlockType?.(subBlock.id, "heading1")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>🔠 見出し1</button>
                             <button onClick={() => handleChangeBlockType?.(subBlock.id, "heading2")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>🔠 見出し2</button>
-                            <button onClick={() => handleChangeBlockType?.(subBlock.id, "heading3")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>🔠 見出し3</button>
                             <button onClick={() => handleChangeBlockType?.(subBlock.id, "text")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", marginBottom: "0.25rem" }}>✏️ テキスト</button>
                             <button onClick={() => handleChangeBlockType?.(subBlock.id, "list")} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center" }}>📋 リスト</button>
                           </div>
@@ -346,20 +339,17 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                             e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
                           }}
                           style={{
-                            fontSize:
-                              subBlock.type === "heading1"
-                                ? "2rem"
-                                : subBlock.type === "heading2"
-                                ? "1.5rem"
-                                : subBlock.type === "heading3"
-                                ? "1.25rem"
-                                : "1rem",
-                            fontWeight:
-                              subBlock.type === "heading1" ||
-                              subBlock.type === "heading2" ||
-                              subBlock.type === "heading3"
-                                ? "bold"
-                                : "normal",
+                          fontSize:
+                            subBlock.type === "heading1"
+                              ? "2rem"
+                              : subBlock.type === "heading2"
+                              ? "1.5rem"
+                              : "1rem",
+                          fontWeight:
+                            subBlock.type === "heading1" ||
+                            subBlock.type === "heading2"
+                              ? "bold"
+                              : "normal",
                             lineHeight: "1.5",
                             outline: "none",
                             minHeight: "1.5em",
@@ -372,14 +362,12 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                         >
                           {subBlock.content}
                         </div>
-                      ) : subBlock.type === "heading1" || subBlock.type === "heading2" || subBlock.type === "heading3" ? (
+                      ) : subBlock.type === "heading1" || subBlock.type === "heading2" ? (
                         (() => {
                           const SubHeadingTag =
                             subBlock.type === "heading1"
                               ? "h3"
-                              : subBlock.type === "heading2"
-                              ? "h4"
-                              : "h5";
+                              : "h4";
                           return (
                             <SubHeadingTag
                               style={{ margin: 0 }}

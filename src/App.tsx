@@ -140,7 +140,7 @@ const App = () => {
     );
   };
 
-  const handleChangeBlockType = (blockId: string, newType: "heading1" | "heading2" | "heading3" | "text" | "list") => {
+  const handleChangeBlockType = (blockId: string, newType: "heading1" | "heading2" | "text" | "list") => {
     setPostList((prev) =>
       prev.map((post) => ({
         ...post,
@@ -661,4 +661,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App; 

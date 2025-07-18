@@ -86,13 +86,11 @@ export const DraggableBlock: React.FC<DraggableBlockProps> = ({
 
   drag(drop(ref));
 
-  // Heading rendering logic for heading1, heading2, heading3
+  // Updated heading rendering logic: heading1 → h2, heading2 → h3, no heading3 support
   const HeadingTag =
     block.type === "heading1"
-      ? "h1"
-      : block.type === "heading2"
       ? "h2"
-      : block.type === "heading3"
+      : block.type === "heading2"
       ? "h3"
       : null;
 

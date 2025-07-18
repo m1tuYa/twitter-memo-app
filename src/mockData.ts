@@ -35,27 +35,26 @@ export const posts: Post[] = [
         parentId: "blk1"
       },
       {
-        id: "blk1-2",
-        type: "heading2",
-        content: "朝食メニュー",
-        order: 3,
-        createdAt: "2025-07-16T08:03:00Z"
-      },
-      {
-        id: "blk1-3",
-        type: "heading3",
-        content: "飲み物",
-        order: 4,
-        createdAt: "2025-07-16T08:04:00Z",
-        parentId: "blk1-2"
-      },
-      {
-        id: "blk1-4",
+        id: "blk9",
         type: "text",
-        content: "コーヒー、紅茶、水",
+        content: "末尾にあるテストブロック",
+        order: 99,
+        createdAt: "2025-07-16T08:10:00Z"
+      },
+      {
+        id: "blk10",
+        type: "list",
+        content: "- テスト項目A\n- テスト項目B",
+        order: 4,
+        createdAt: "2025-07-16T08:11:00Z"
+      },
+      {
+        id: "blk11",
+        type: "text",
+        content: "存在しないparentIdを持つブロック",
         order: 5,
-        createdAt: "2025-07-16T08:05:00Z",
-        parentId: "blk1-3"
+        createdAt: "2025-07-16T08:12:00Z",
+        parentId: "nonexistent"
       }
     ]
   },
@@ -74,10 +73,31 @@ export const posts: Post[] = [
       {
         id: "blk5",
         type: "text",
-        content: "時系列データの可視化方法を整理する。隣の客はよくかき食う客だ．坊主が屏風に上手な絵を描いた．",
+        content: "時系列データの可視化方法を整理する。",
         order: 1,
         createdAt: "2025-07-16T14:02:00Z",
         parentId: "blk4"
+      },
+      {
+        id: "blk12",
+        type: "heading2",
+        content: "参考文献メモ",
+        order: 2,
+        createdAt: "2025-07-16T14:03:00Z"
+      },
+      {
+        id: "blk13",
+        type: "text",
+        content: "文献A, 文献B",
+        order: 3,
+        createdAt: "2025-07-16T14:04:00Z",
+        parentId: "blk12"
+      },
+      {
+        id: "blk14",
+        type: "text",
+        content: "createdAtがないブロック",
+        order: 4
       }
     ]
   },
@@ -97,15 +117,23 @@ export const posts: Post[] = [
         id: "blk7",
         type: "text",
         content: "午後はジムに行く。",
-        order: 1,
+        order: 0,
         createdAt: "2025-07-17T10:01:00Z"
       },
       {
-        id: "blk8",
-        type: "text",
-        content: "夜は友達とオンラインでゲームをする。",
+        id: "blk15",
+        type: "heading1",
+        content: "夜の予定",
         order: 2,
         createdAt: "2025-07-17T10:02:00Z"
+      },
+      {
+        id: "blk16",
+        type: "text",
+        content: "ゲーム、映画鑑賞",
+        order: 3,
+        createdAt: "2025-07-17T10:03:00Z",
+        parentId: "blk15"
       }
     ]
   }
