@@ -10,7 +10,7 @@ import type { Post, Block } from "./types";
 
 import DraggablePost from "./components/DraggablePost";
 import { DraggableBlock } from "./components/DraggableBlock";
-import PostBlockList from "./components/PostBlockList";
+import PostBlockList, { handleAddBlockToPostEnd } from "./components/PostBlockList";
 
 
 const formatDate = (iso: string) => {
@@ -531,24 +531,32 @@ const App = () => {
               </div>
             </div>
             {/* ポストメニュー: 「…」 */}
-            <div style={{ position: "absolute", top: "0.2rem", right: "0.5rem", zIndex: 10 }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "0.25rem",
+                right: "0",
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+                zIndex: 1,
+              }}
+            >
               <button
+                className="post-menu-button"
                 style={{
-                  background: "transparent",
+                  padding: "2px 6px",
+                  fontSize: "1rem",
+                  background: "none",
                   border: "none",
-                  fontSize: "1.2rem",
                   cursor: "pointer",
-                  padding: "0 0.3rem"
+                  lineHeight: "1",
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
                   setActiveBlockMenuId(null);
                   setBlockTypeMenuId(null);
                   setActiveBoardMenuPostId(null);
-                  // 独自に管理する場合はstateを用意しても良い
-                  // 今回はpost.idをactiveBoardMenuPostIdに使わないように
-                  // post.idをactivePostMenuIdとしても良い
-                  // ここではactiveBlockMenuIdでなく、activeBoardMenuPostIdを使う
                   setActiveBoardMenuPostId(post.id === activeBoardMenuPostId ? null : post.id + "-postmenu");
                 }}
               >
@@ -556,6 +564,14 @@ const App = () => {
               </button>
               {activeBoardMenuPostId === post.id + "-postmenu" && (
                 <div className="post-menu-content" onClick={e => e.stopPropagation()}>
+                  <button
+                    onClick={() => {
+                      handleAddBlockToPostEnd(post.id, postList, setPostList, setEditingBlockId);
+                      setActiveBoardMenuPostId(null);
+                    }}
+                  >
+                    ➕ 新しいブロックを追加
+                  </button>
                   <button className="delete-button" onClick={() => handleDeletePost(post.id)}>🗑️ 削除</button>
                 </div>
               )}
@@ -613,15 +629,15 @@ const App = () => {
                 <h3>{board.title}</h3>
                 <ul style={{ margin: 0, paddingLeft: "1rem" }}>
                   {boardBlocks.map((block) => (
-                    <li key={block.id} style={{ marginBottom: "0.3rem" }}>
-                      {block.type === "heading" && <h4 style={{ margin: 0 }}>{block.content}</h4>}
+                    <li key={block.id} style={{ marginBottom: "0.3rem", listStyle: "none" }}>
+                      {block.type === "heading1" && <h2>{block.content}</h2>}
+                      {block.type === "heading2" && <h3>{block.content}</h3>}
                       {block.type === "text" && <p style={{ margin: 0 }}>{block.content}</p>}
-                      {block.type === "list" && (
-                        <ul style={{ margin: 0, paddingLeft: "1rem" }}>
-                          {block.content.split("\n").map((item, idx) => (
-                            <li key={idx} style={{ margin: 0 }}>{item.replace(/^[-*]\s*/, "")}</li>
-                          ))}
-                        </ul>
+                      {block.type === "list" && <li style={{ margin: 0 }}>{block.content}</li>}
+                      {block.type === "checkbox" && (
+                        <div style={{ margin: 0 }}>
+                          <input type="checkbox" checked={!!(block as any).checked} readOnly /> {block.content}
+                        </div>
                       )}
                     </li>
                   ))}

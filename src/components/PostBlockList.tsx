@@ -395,11 +395,39 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
       ))}
       {/* ブロック末尾用DropZone */}
       <DropZone targetIndex={sortedBlocks.length} postId={post.id} onDropBlock={onDropBlock} />
-      <div className="add-block-button" style={{ marginLeft: "2rem" }}>
-        <button onClick={() => handleAddBlock?.(post.id)}>+ 新規Block</button>
-      </div>
     </>
   );
 };
+
+// 新規ブロックをポスト末尾に追加する関数
+export function handleAddBlockToPostEnd(
+  postId: string,
+  postList: Post[],
+  setPostList: React.Dispatch<React.SetStateAction<Post[]>>,
+  setEditingBlockId: (id: string | null) => void
+) {
+  // Find the post
+  const post = postList.find((p) => p.id === postId);
+  if (!post) return;
+  // Determine the next order (max order + 1 or length)
+  const topLevelBlocks = post.blocks.filter((b) => b.parentId === undefined || b.parentId === null);
+  const nextOrder = post.blocks.length;
+  const newBlockId = String(Date.now());
+  const newBlock: Block = {
+    id: newBlockId,
+    type: "text",
+    content: "",
+    order: nextOrder,
+    parentId: undefined,
+  };
+  setPostList((prev) =>
+    prev.map((p) =>
+      p.id === postId
+        ? { ...p, blocks: [...p.blocks, newBlock] }
+        : p
+    )
+  );
+  setTimeout(() => setEditingBlockId(newBlockId), 0);
+}
 
 export default PostBlockList;
