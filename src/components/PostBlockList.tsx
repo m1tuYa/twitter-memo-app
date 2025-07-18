@@ -166,6 +166,18 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                   )}
                   <br />
                   <button onClick={() => {
+                    // --- Add Sub Block menu item ---
+                    // Find subblocks of this block
+                    const subBlocks = sortedBlocks.filter((b) => b.parentId === block.id);
+                    if (handleAddSubBlock) {
+                      handleAddSubBlock(post.id, block.id);
+                    }
+                    setActiveBlockMenuId?.(null);
+                  }} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center" }}>
+                    ➕ サブブロック追加
+                  </button>
+                  <br />
+                  <button onClick={() => {
                     handleDeleteBlock?.(block.id);
                     setActiveBlockMenuId?.(null);
                   }} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center" }}>
@@ -389,10 +401,6 @@ const PostBlockList: React.FC<PostBlockListProps> = ({
                   </div>
                 </DraggableBlock>
               ))}
-              {/* サブブロック追加ボタン */}
-              <div className="add-block-button" style={{ marginLeft: "2rem" }}>
-                <button onClick={() => handleAddSubBlock?.(post.id, block.id)}>＋サブブロック追加</button>
-              </div>
             </>
           )}
         </React.Fragment>
